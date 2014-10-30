@@ -4,6 +4,10 @@ body {
 	font-size: 120%;
 }
 
+h1 {
+	text-align: center;
+}
+
 .title {
 	padding-top: 20px;
 	font-size: 30px;

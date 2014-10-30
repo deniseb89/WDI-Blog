@@ -1,25 +1,26 @@
 require 'bundler'
 Bundler.require
+
 require_relative 'connection'
+require_relative './helpers/authentication_helper'
+
 enable :sessions
 
 ROOT = Dir.pwd
 Dir[ROOT+"/models/*.rb"].each { |file| require file }
+
 # shows all posts
 get '/' do
 	@blogs = Blog.all
 	erb :index
 end
 # returns a form to create a new post
-get '/new' do
-	if session[:current_user]
+get '/entry/new' do
+	authenticate!
 		erb :new
-	else
-		redirect '/'
-	end
 end
 # create a new post
-post '/new' do
+post '/entry/new' do
 	blog = Blog.create(params[:blog])
 	redirect '/'
 end
@@ -30,32 +31,23 @@ get '/entry/:id/edit' do
 end
 # updates an existing post
 patch '/entry/:id' do
-	if session[:current_user]
+	authenticate!
 		post = Blog.find(params[:id])
-		post.update(params[:food])
-		erb :edit
-	else
-		redirect '/sessions/login'
-	end
+		post.update(params[:post])
+		redirect "/entry/#{post.id}"
 end
 # display a single post
 get '/entry/:id' do
-	if session[:current_user]
+	authenticate!
 		@post = Blog.find(params[:id])
 		erb :show
-	else
-		redirect '/sessions/login'
-	end
 end
 
 # destroy a post
 delete '/entry/:id' do
-	if session[:current_user]
+	authenticate!
 		Blog.destroy(params[:id])
 		redirect '/'
-	else
-		redirect '/sessions/login'
-	end
 end
 
 get '/sessions/new' do

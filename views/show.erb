@@ -6,7 +6,7 @@
 	</tr>
 	<tr>
 		<td class="time">
-			<%= @post.created_at %>
+			Written: <%= @post.created_at.strftime("%k:%M, %d %b %Y") %>
 		</td>
 	</tr>
 	<tr>
