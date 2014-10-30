@@ -1,0 +1,27 @@
+<h1>
+	Welcome to The Blog
+</h1>
+
+<table>
+	<% @blogs.each do |post| %>
+		<tr>
+			<td class="title">
+				<a href="/entry/<%= post.id %>">
+					<%= post.title %>
+				</a>	
+			</td>
+		</tr>
+		<tr>
+			<td class="time">
+				<%= post.created_at %><br>
+				<%= post.updated_at %>
+			</td>
+		</tr>
+		<tr>
+			<td class="post">
+				<%= post.post %>
+			</td>
+		</tr>
+	<% end %>
+</table>
+
